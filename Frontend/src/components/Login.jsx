@@ -3,7 +3,7 @@ export default () => {
 		<main className='w-full h-screen flex flex-col items-center justify-center px-4'>
 			<div className='max-w-sm w-full  space-y-5'>
 				<div className='text-center pb-8'>
-					<a className="text-5xl font-black" href="">Maruti Hotel</a>
+					<a className="text-5xl font-black" href="/">Maruti Hotel</a>
 					<div className='mt-5'>
 						<h3 className='text-gray-800  font-bold sm:text-xl'>
 							Log in to your account
