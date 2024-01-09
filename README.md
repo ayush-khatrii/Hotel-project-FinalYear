@@ -16,12 +16,8 @@ This repository contains a comprehensive hotel booking system designed for a loc
 
 ## Technologies Used
 
-- **Frontend:** HTML, CSS, JavaScript (Framework: [Specify Framework/Library])
+- **Frontend:** React js , Tailwind Css)
 - **Backend:** Node.js, Express.js
-- **Database:** MongoDB (or specify your database)
-- **Other Tools:** [Any other tools or services used in the project]
+- **Database:** MongoDB
+- **Other Tools:** VS Code , Git , Github
 
-
-Copy code
-npm start
-Access the application at http://localhost:your-port.
