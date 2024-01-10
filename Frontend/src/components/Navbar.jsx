@@ -70,12 +70,12 @@ const Navbar = () => {
 
 							<div className='flex items-center justify-center w-full gap-3 '>
 								<Link to={"/login"}>
-									<button className=' border text-red-500 border-red-700 lg:w-auto w-full px-3 py-2  lg:text-xl  font-medium rounded-md '>
+									<button className=' border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1    font-medium rounded-md '>
 										Login
 									</button>
 								</Link>
 								<Link to={"/signup"}>
-									<button className='  text-white bg-red-700 lg:w-auto w-full px-3 py-2  lg:text-xl  font-medium rounded-md '>
+									<button className='  text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base  font-medium rounded-md '>
 										Signup
 									</button>
 								</Link>

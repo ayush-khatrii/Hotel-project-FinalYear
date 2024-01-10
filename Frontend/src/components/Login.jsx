@@ -1,22 +1,26 @@
+import { Link } from "react-router-dom";
+
 export default () => {
 	return (
-		<main className='w-full h-screen flex flex-col items-center justify-center px-4'>
+		<main className='w-full h-screen flex flex-col items-center justify-center lg:px-4 px-5 '>
 			<div className='max-w-sm w-full  space-y-5'>
 				<div className='text-center pb-8'>
-					<a className="text-5xl font-black" href="/">Maruti Hotel</a>
+					<a className='text-5xl font-black' href='/'>
+						Maruti Hotel
+					</a>
 					<div className='mt-5'>
 						<h3 className='text-gray-800  font-bold sm:text-xl'>
 							Log in to your account
 						</h3>
 					</div>
 				</div>
-				<form onSubmit={(e) => e.preventDefault()} className='space-y-5'>
+				<form onSubmit={(e) => e.preventDefault()} className='space-y-2'>
 					<div>
 						<label className='font-medium'>Email</label>
 						<input
 							type='email'
 							required
-							className='w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg'
+							className='w-full mt-2 px-3 py-2  bg-transparent outline-none border border-zinc-500 shadow-sm rounded-lg'
 						/>
 					</div>
 					<div>
@@ -24,34 +28,15 @@ export default () => {
 						<input
 							type='password'
 							required
-							className='w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg'
+							className='w-full mt-2 px-3 py-2  bg-transparent outline-none border border-zinc-500 shadow-sm rounded-lg'
 						/>
 					</div>
-					<div className='flex items-center justify-between text-sm'>
-						<div className='flex items-center gap-x-3'>
-							<input
-								type='checkbox'
-								id='remember-me-checkbox'
-								className='checkbox-item peer hidden'
-							/>
-							<label
-								htmlFor='remember-me-checkbox'
-								className='relative flex w-5 h-5 bg-white peer-checked:bg-indigo-600 rounded-md border ring-offset-2 ring-indigo-600 duration-150 peer-active:ring cursor-pointer after:absolute after:inset-x-0 after:top-[3px] after:m-auto after:w-1.5 after:h-2.5 after:border-r-2 after:border-b-2 after:border-white after:rotate-45'
-							></label>
-							<span>Remember me</span>
-						</div>
-						<a
-							href='javascript:void(0)'
-							className='text-center text-indigo-600 hover:text-indigo-500'
-						>
-							Forgot password?
-						</a>
-					</div>
-					<button className='w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150'>
+					<div className='flex items-center justify-between text-sm'></div>
+					<button className='w-full px-4 py-2 text-white font-medium bg-red-600 hover:bg-red-800 rounded-lg duration-150'>
 						Sign in
 					</button>
 				</form>
-				<button className='w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100'>
+				<button className='w-full flex items-center justify-center gap-x-3 py-2.5 border border-zinc-500 rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100'>
 					<svg
 						className='w-5 h-5'
 						viewBox='0 0 48 48'
@@ -86,12 +71,9 @@ export default () => {
 				</button>
 				<p className='text-center'>
 					Don't have an account?{" "}
-					<a
-						href='javascript:void(0)'
-						className='font-medium text-indigo-600 hover:text-indigo-500'
-					>
+					<Link to='/signup' className='font-medium text-red-600 '>
 						Sign up
-					</a>
+					</Link>
 				</p>
 			</div>
 		</main>
