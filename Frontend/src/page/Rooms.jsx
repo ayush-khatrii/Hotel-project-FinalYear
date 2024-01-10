@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Rooms = () => {
+	const [selectedCategory, setSelectedCategory] = useState("All");
+	const [searchInput, setSearchInput] = useState("");
 	const rooms = [
 		{
 			id: 1,
@@ -8,34 +11,83 @@ const Rooms = () => {
 			type: "Luxury",
 			description: "Spacious luxury room with a view.",
 			available: true,
+			price: 3000,
 			amenities: ["King-sized Bed", "Jacuzzi", "Minibar"],
 		},
 		{
 			id: 2,
+			name: "New Latest Luxury Room",
+			type: "Luxury",
+			description: "New Spacious luxury room with a gardern view.",
+			available: true,
+			price: 3000,
+			amenities: ["King-sized Bed", "Jacuzzi", "Minibar"],
+		},
+		{
+			id: 3,
 			name: "Basic Room",
 			type: "Basic",
+			price: 3000,
 			description: "Cozy basic room for a comfortable stay.",
 			available: true,
 			amenities: ["Double Bed", "TV", "WiFi"],
 		},
 		{
-			id: 3,
+			id: 4,
 			name: "Suite Room",
 			type: "Suite",
+			price: 3000,
 			description: "Elegant suite room with additional amenities.",
-			available: false,
+			available: true,
 			amenities: ["Master Bedroom", "Living Area", "Balcony"],
 		},
-		// Add more room data as needed
+		{
+			id: 5,
+			name: "Sample Room",
+			type: "Suite",
+			price: 3000,
+			description: "Elegant suite room with additional amenities.",
+			available: true,
+			amenities: ["Master Bedroom", "Living Area", "Balcony"],
+		},
 	];
-
 
 	const handleRoomSelect = (roomId) => {
 		alert(`Room ${roomId} selected`);
 	};
-	const handleFilter = ()=> {
-    
-  };
+	const handleFilter = (e) => {
+		const val = e.target.value;
+		setSelectedCategory(val);
+		console.log(val);
+	};
+
+	const handleSearch = (e) => {
+		// setSearchInput(e.target.value);
+		const val = e.target.value.toLowerCase();
+		console.log(val);
+		setSearchInput(val);
+	};
+
+	// const filteredCategory = rooms.filter((item) => {
+	// 	if (selectedCategory === "All" ) {
+	// 		return true;
+	// 	} else {
+	// 		return item.type === selectedCategory;
+	// 	}
+	// });
+
+	const filteredCategory = rooms.filter((item) => {
+		const isSelectedCategory =
+			selectedCategory === "All" || item.type === selectedCategory;
+		const isMatchingSearch =
+			item.name.toLowerCase().includes(searchInput) ||
+			item.type.toLowerCase().includes(searchInput) ||
+			item.amenities.some((ammenity) =>
+				ammenity.toLowerCase().includes(searchInput)
+			);
+
+		return isSelectedCategory && isMatchingSearch;
+	});
 
 	return (
 		<div className=''>
@@ -66,7 +118,7 @@ const Rooms = () => {
 						onChange={handleFilter}
 						className='rounded-md border border-black px-4 py-2 mr-4'
 					>
-						<option value=''>All Categories</option>
+						<option value='All'>All</option>
 						<option value='Luxury'>Luxury</option>
 						<option value='Basic'>Basic</option>
 						<option value='Suite'>Suite</option>
@@ -89,24 +141,28 @@ const Rooms = () => {
 						<input
 							type='text'
 							placeholder='Search'
+							onChange={handleSearch}
 							className='w-full py-3 pl-12 pr-4 text-gray-500 border border-neutral-600 rounded-md outline-none '
 						/>
 					</div>
 				</div>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-					{rooms.map((room) => (
+					{filteredCategory.map((room) => (
 						<div
 							key={room.id}
-							className='bg-white rounded-lg overflow-hidden shadow-md'
+							className='bg-white rounded-lg overflow-hidden shadow-md border border-gray-300'
 						>
 							<img
 								src={`https://via.placeholder.com/800x600.png?text=${room.name}`}
 								alt={room.name}
 								className='w-full h-64 object-cover'
 							/>
-							<div className='p-6'>
-								<h2 className='text-xl font-semibold mb-2'>{room.name}</h2>
+							<div className='p-6 '>
+								<span className='flex mb-3 items-center justify-between text-center gap-5'>
+									<h2 className='text-xl font-semibold'>{room.name}</h2>
+									<p className=' text-sm text-gray-500'>{room.type}</p>
+								</span>
 								<p className='text-gray-600 mb-4'>{room.description}</p>
 								<div className='mb-4'>
 									<p className='text-sm font-semibold mb-1'>Amenities:</p>
@@ -122,7 +178,7 @@ const Rooms = () => {
 									</ul>
 								</div>
 								<div className='flex justify-between items-center'>
-									<p className='text-sm text-gray-500'>{room.type}</p>
+									<span className='flex-1'>{room.price}</span>
 									<button
 										onClick={() => handleRoomSelect(room.id)}
 										disabled={!room.available}
