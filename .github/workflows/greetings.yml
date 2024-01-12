@@ -1,0 +1,20 @@
+name: Personalized Greetings
+
+on:
+  pull_request:
+    types:
+      - opened
+  issues:
+    types:
+      - opened
+
+jobs:
+  greetings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Greet Contributor
+        run: |
+          contributor=$(jq -r .sender.login $GITHUB_EVENT_PATH)
+          event_type=$(jq -r .event_name $GITHUB_EVENT_PATH)
+          echo "Hello @$contributor! Thanks for opening a $event_type 🚀."
+          echo "The maintainers will soon review and attend to your contribution. Thank you for your patience!"
