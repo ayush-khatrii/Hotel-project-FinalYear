@@ -3,43 +3,21 @@ import Roomcard from "../components/Roomcard";
 import { Link } from "react-router-dom";
 
 const RoomSection = () => {
-	const [booked, setbooked] = useState(false);
-	const [buttonText, setbuttonText] = useState("");
+	const [rooms, setRooms] = useState([]);
+
+	const fetchRoom = async () => {
+		try {
+			const response = await fetch("http://localhost:3000/rooms");
+			const roomsData = await response.json();
+			setRooms(roomsData);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
-		setbuttonText(booked ? "Booked" : "Book Now");
-	}, [booked]);
-
-	const data = [
-		{
-			id: 1,
-			name: "Luxury Room",
-			type: "Luxury",
-			description: "Spacious luxury room with a mountain view.",
-			available: true,
-		},
-		{
-			id: 2,
-			name: "Basic Room",
-			type: "Basic",
-			description: "Cozy basic room for a comfortable stay.",
-			available: true,
-		},
-		{
-			id: 3,
-			name: "Suite Room",
-			type: "Suite",
-			description: "Elegant suite room with additional amenities.",
-			available: false,
-		},
-		{
-			id: 3,
-			name: "Suite Room",
-			type: "Suite",
-			description: "Elegant suite room with additional amenities.",
-			available: false,
-		},
-	];
+		fetchRoom();
+	}, []);
 
 	return (
 		<section className='container mx-auto my-48 ' id='roomsection'>
@@ -47,14 +25,15 @@ const RoomSection = () => {
 				<h1 className='text-2xl font-bold my-10 '>Our Rooms</h1>
 			</div>
 			<div className='grid  px-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
-				{data.map((item) => (
+				{rooms.slice(0, 4).map((item) => (
 					<Roomcard
-						key={item.id}
-						title={item.name}
-						roomtype={item.type}
-						imgurl={`https://via.placeholder.com/800x600.png?text=${item.name}`}
+						key={item._id}
+						id={item._id}
+						title={item.roomName}
+						roomtype={item.roomType}
+						imgurl={item.roomImages}
 						desc={item.description}
-						buttonText={buttonText}
+						buttonText={item.isBooked ? "Booked" : "Book Now"}
 					/>
 				))}
 			</div>

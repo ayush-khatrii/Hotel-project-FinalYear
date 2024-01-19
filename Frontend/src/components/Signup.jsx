@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
 export default () => {
+
 	return (
 		<main className='w-full h-screen flex flex-col items-center justify-center lg:px-4 px-5 '>
 			<div className='max-w-sm w-full  space-y-5'>

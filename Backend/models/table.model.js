@@ -1,5 +1,4 @@
-// importing mongoose for creating MongoDB user schema and model.
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 // Room Schema
 const tableSchemas = new mongoose.Schema({
@@ -27,6 +26,7 @@ const tableSchemas = new mongoose.Schema({
 
 })
 
-// Exporting Room as model from Room schema
-const Room = mongoose.model("Room", roomSchema);
-module.exports = Room;
+
+const Room = mongoose.model("Table", tableSchemas);
+
+export default Room;

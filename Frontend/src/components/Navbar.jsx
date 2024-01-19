@@ -4,7 +4,7 @@ const menuList = [
 	{ path: "/", name: "Home" },
 	{ path: "/rooms", name: "Room" },
 	{ path: "/restaurant", name: "Restaurant" },
-	{ path: "#contact", name: "Contact" },
+	{ path: "/", name: "Contact" },
 ];
 
 const Navbar = () => {

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
 	return (
 		<section className='container mb-20 mx-auto lg:px-8 flex flex-col lg:flex-row justify-around items-center mt-28 '>
@@ -10,9 +12,12 @@ const Home = () => {
 					Experience luxury like never before!
 				</p>
 				<div className='cta w-full flex   flex-col gap-3 lg:flex-row '>
-					<button className=' text-white bg-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md '>
+					<Link
+						to={"/rooms"}
+						className=' text-white bg-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md '
+					>
 						Book Now
-					</button>
+					</Link>
 					<a
 						href='#roomsection'
 						className=' border text-red-500 text-center border-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md  '
@@ -25,7 +30,7 @@ const Home = () => {
 				<div className='md:grid hidden '>
 					<div className='rounded overflow-hidden mb-2 h-80 cursor-pointer '>
 						<img
-							src='../../public/hotel-nightview.webp'
+							src='/hotel-nightview.webp'
 							alt=''
 							className='rounded-lg w-full hover:scale-110 object-cover  transition ease-in duration-400 h-96'
 						/>
@@ -33,14 +38,14 @@ const Home = () => {
 					<div className='grid grid-cols-2 gap-3 h-40  cursor-pointer'>
 						<div className='rounded overflow-hidden'>
 							<img
-								src='../../public/hotelimg.webp'
+								src='/hotelimg.webp'
 								className='rounded-lg w-full h-40 hover:scale-105 transition ease-in duration-400  object-cover hover:object-cover '
 								alt=''
 							/>
 						</div>
 						<div className='rounded overflow-hidden'>
 							<img
-								src='../../public/restaurant.webp'
+								src='/restaurant.webp'
 								className='rounded-lg w-full h-40 hover:scale-105 transition ease-in duration-400  object-cover '
 								alt=''
 							/>

@@ -1,71 +1,45 @@
-// importing constants
-require("dotenv").config();
-const express = require('express')
+import dotenv from 'dotenv'
+dotenv.config();
+import express from 'express'
 const app = express()
 const port = process.env.PORT || 3000
-const cors = require('cors');
-const mongoose = require('mongoose');
-const connectDB = require('./db/db')
-const User = require("./models/users.model")
+import cors from 'cors'
+import connectDB from './db/db.js'
+
+import userRouter from './routes/user.js'
+import roomsRouter from './routes/rooms.js'
+
 
 // Middlewares
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 
-// All Api's
 // Home route 
 app.get('/', (req, res) => {
-    res.send("Hello app")
+    res.send("Hello Server!")
 })
+// routes
+app.use("/users", userRouter);
+app.use('/rooms', roomsRouter);
 
 
-// Get all users 
-app.get('/users', async (req, res) => {
-    try {
-        const users = await User.find();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// post users
-app.post('/users', async (req, res) => {
-    console.log(req.body);
-    const newUser = new User({
-
-        username: req.body.username,
-        useremail: req.body.useremail,
-        password: req.body.password,
-        phonenumber: req.body.phonenumber,
-        address: req.body.address,
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    const errStatus = err.status || 500;
+    const errMessage = err.message || "Something went wrong!";
+    return res.status(errStatus).json({
+        success: false,
+        status: errStatus,
+        message: errMessage
     });
-
-    try {
-        await newUser.save();
-        res.send("Success! User created .");
-    } catch (err) {
-        res.send("Error posting user : " + err);
-    }
 });
-// get all rooms 
-// app.get('/rooms', async (req, res) => {
-//     try {
-
-//         const users = await User.find();
-//         res.json(users);
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// });
 
 
 
 
 // connectDB function called - MongoDB connection 
 connectDB().then(() => {
-    // express app listening on port
     app.listen(port, () => {
         console.log(`Example app listening on port http://localhost:${port}`)
     })

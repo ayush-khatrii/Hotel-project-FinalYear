@@ -16,7 +16,7 @@ This repository contains a comprehensive hotel booking system designed for a loc
 
 ## Technologies Used
 
-- **Frontend:** React js , Tailwind Css)
+- **Frontend:** React js , Tailwind Css
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Other Tools:** VS Code , Git , Github
