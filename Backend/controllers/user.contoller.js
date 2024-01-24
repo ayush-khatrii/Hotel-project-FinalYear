@@ -11,7 +11,7 @@ const handleGetAllUsers = async (req, res, next) => {
 };
 
 
-// Get Users by ID
+// // Get Users by ID
 const handleGetUserById = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
@@ -26,37 +26,7 @@ const handleGetUserById = async (req, res, next) => {
 
 
 
-// Delete  All Users
-// const handleDeletetAllUsers = async (req, res, next) => {
-//     try {
-//         await User.deleteMany();
-//         res.status(200).json({ message: "Users deleted successfully!" });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-
-
-// Create Users
-const handlePostUsers = async (req, res, next) => {
-
-    const { username, useremail, password } = req.body;
-    try {
-        const newUser = new User({
-            username, useremail, password
-        });
-        await newUser.save();
-        res.status(200).json({ message: "User created successfully!!" });
-
-    } catch (err) {
-        next(err);
-    }
-}
-
-
-
-// Update User by ID
+// // Update User by ID
 const handleUpdateUsersById = async (req, res, next) => {
     const UserId = req.params.id;
 
@@ -72,6 +42,8 @@ const handleUpdateUsersById = async (req, res, next) => {
     }
 }
 
+
+
 // Delete User by ID
 const handleDeleteUsersById = async (req, res, next) => {
     try {
@@ -85,10 +57,12 @@ const handleDeleteUsersById = async (req, res, next) => {
     }
 };
 
+
+
+
 export default {
     handleGetAllUsers,
     handleGetUserById,
-    handlePostUsers,
     handleUpdateUsersById,
     handleDeleteUsersById
 }

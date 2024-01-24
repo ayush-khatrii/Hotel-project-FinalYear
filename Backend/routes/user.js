@@ -1,20 +1,18 @@
 import express from 'express'
 import userController from '../controllers/user.contoller.js';
+import { verifyAdmin, verifyToken, verifyUser } from '../middlewares/verifyToken.js';
+import userContoller from '../controllers/user.contoller.js';
 
 // Express Router 
 const router = express.Router();
 
-// All routes
-router
-    .route('/')
-    .get(userController.handleGetAllUsers)
-    .post(userController.handlePostUsers)
 
-//Specific Routes
-router
-    .route('/:id')
-    .get(userController.handleGetUserById)
-    .put(userController.handleUpdateUsersById)
-    .delete(userController.handleDeleteUsersById)
+
+router.get("/", verifyAdmin, userController.handleGetAllUsers)
+router.get("/:id", verifyUser, userController.handleGetUserById)
+router.put("/:id", verifyUser, userController.handleUpdateUsersById)
+router.delete("/:id", verifyUser, userController.handleDeleteUsersById)
+
+
 
 export default router;
