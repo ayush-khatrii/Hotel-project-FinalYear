@@ -18,7 +18,7 @@ export const registerUser = async (req, res, next) => {
 		await newUser.save();
 		res.status(201).json({ message: "User has been  created successfully!" });
 	} catch (error) {
-		next(error);
+		res.status(500).json({ message: "Internal Server Error" });
 	}
 };
 export const loginUser = async (req, res, next) => {
@@ -45,6 +45,6 @@ export const loginUser = async (req, res, next) => {
 		}).status(200).json({ ...others });
 
 	} catch (error) {
-		next(error);
+		res.status(500).json({ message: "Internal Server Error" });
 	}
 };

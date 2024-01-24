@@ -5,7 +5,7 @@ const handleGetAllRooms = async (req, res, next) => {
         const allRooms = await Room.find();
         res.status(200).json(allRooms);
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
@@ -20,8 +20,7 @@ const handleGetRoomById = async (req, res, next) => {
         }
         res.status(200).json(room);
     } catch (error) {
-        console.error("Error fetching room:", error);
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
@@ -43,7 +42,7 @@ const handlePostRooms = async (req, res, next) => {
         await newRoom.save();
         res.status(200).json({ message: "Room Successfully Created!", status: 200 })
     } catch (error) {
-        next(error)
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -59,7 +58,7 @@ const handleUpdateRoomsById = async (req, res, next) => {
         return res.status(200).json({ message: "Room Updated Successfully" });
 
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -72,7 +71,7 @@ const handleDeleteRoomsById = async (req, res, next) => {
         }
         res.status(200).json({ message: "Room Deleted Successfully!", status: 200 });
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 

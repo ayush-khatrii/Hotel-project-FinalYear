@@ -6,12 +6,12 @@ const handleGetAllUsers = async (req, res, next) => {
         const allUsers = await User.find();
         res.status(200).json(allUsers);
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });;
     }
 };
 
 
-// // Get Users by ID
+// Get Users by ID
 const handleGetUserById = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
@@ -20,13 +20,13 @@ const handleGetUserById = async (req, res, next) => {
         }
         res.status(200).json(user);
     } catch (error) {
-        next(error)
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
 
 
-// // Update User by ID
+// Update User by ID
 const handleUpdateUsersById = async (req, res, next) => {
     const UserId = req.params.id;
 
@@ -38,7 +38,7 @@ const handleUpdateUsersById = async (req, res, next) => {
         return res.status(200).json({ message: "User Updated Successfully" });
 
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });;
     }
 }
 
@@ -53,7 +53,7 @@ const handleDeleteUsersById = async (req, res, next) => {
         }
         res.status(200).json({ message: "User Deleted Successfully!", status: 200 });
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: "Internal Server Error" });;
     }
 };
 

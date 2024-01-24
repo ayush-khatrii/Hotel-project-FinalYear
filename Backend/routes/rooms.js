@@ -14,6 +14,4 @@ router.delete("/:id", verifyAdmin, roomController.handleDeleteRoomsById)
 
 
 
-
-
 export default router;

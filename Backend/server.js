@@ -30,16 +30,6 @@ app.use("/auth", authRouter);
 app.use('/rooms', roomsRouter);
 
 
-// Error Handling Middleware
-app.use((err, req, res, next) => {
-    const errStatus = err.status || 500;
-    const errMessage = err.message || "Something went wrong!";
-    return res.status(errStatus).json({
-        success: false,
-        status: errStatus,
-        message: errMessage
-    });
-});
 // connectDB function called - MongoDB connection 
 connectDB().then(() => {
     app.listen(port, () => {
