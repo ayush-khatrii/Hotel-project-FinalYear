@@ -5,7 +5,7 @@ import RoomSection from "./containers/RoomSection";
 import RestaurantSection from "./containers/RestaurantSection";
 import ContactSection from "./containers/ContactSection ";
 import Footer from "./components/Footer";
-
+import Scrolltotop from "./components/Scrolltotop";
 const App = () => {
 	return (
 		<>
@@ -13,6 +13,10 @@ const App = () => {
 			<RoomSection />
 			<RestaurantSection />
 			<ContactSection />
+			<Scrolltotop /> 
+
+
+
 		</>
 	);
 };
