@@ -6,6 +6,12 @@ import jwt from "jsonwebtoken";
 export const registerUser = async (req, res, next) => {
 	try {
 
+		const { username, email, password } = req.body;
+
+		if (!(username && email && password)) {
+			res.status(400).json({ message: "All fields are required!" })
+		}
+
 		const existingUser = await User.findOne({ email: req.body.email });
 
 		if (existingUser) {
@@ -16,17 +22,17 @@ export const registerUser = async (req, res, next) => {
 		const salt = bcrypt.genSaltSync(10);
 		const hash = bcrypt.hashSync(req.body.password, salt);
 		const newUser = new User({
-			username: req.body.username,
-			email: req.body.email,
+			username: username,
+			email: email,
 			password: hash,
 		});
 
 
 		// Save the user in database
 		await newUser.save();
-		res.status(201).json({ message: "User has been  created successfully!" });
+		res.status(201).json({ success: true, message: "Resgisteration successfully!" });
 	} catch (error) {
-		res.status(500).json({ message: "Internal Server Error" });
+		res.status(500).json({ message: error.message });
 	}
 };
 
@@ -35,6 +41,9 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
 	try {
+
+		// const { email, password } = req.body;
+
 		const email = await User.findOne({ email: req.body.email });
 
 		// Check if user exists
@@ -52,15 +61,17 @@ export const loginUser = async (req, res, next) => {
 
 		const token = jwt.sign({ id: email._id, isAdmin: email.isAdmin }, process.env.JWT);
 
+
+		// using rest operatu
 		const { password, bookings, isAdmin, ...others } = email._doc;
 
 		res.cookie("access_token", token, {
 			httpOnly: true
 		});
-
-		res.status(200).json({ ...others });
+		// Sending res to the frontend with cookies 
+		res.status(201).json({ ...others, token, success: true });
 
 	} catch (error) {
-		res.status(500).json({ message: "Internal Server Error" });
+		res.status(500).json({ message: error.message });
 	}
 };

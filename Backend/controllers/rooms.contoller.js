@@ -1,26 +1,44 @@
 import Room from '../models/room.model.js'
+
 // Get All Rooms
 const handleGetAllRooms = async (req, res, next) => {
     try {
-        const allRooms = await Room.find();
+        const allRooms = await Room.find().populate({
+            path: 'reviews',
+            populate: {
+                path: 'user',
+                select: 'username'
+            },
+            select: 'comment rating'
+        });
+
+
         res.status(200).json(allRooms);
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
     }
 };
+
 
 // Get Rooms by ID
 const handleGetRoomById = async (req, res, next) => {
     try {
         const roomId = req.params.id;
-        const room = await Room.findById(roomId);
+        const room = await Room.findById(roomId).populate({
+            path: 'reviews',
+            populate: {
+                path: 'user',
+                select: 'username'
+            },
+            select: 'comment rating'
+        });;
 
         if (!room) {
             return res.status(404).json({ error: "Room not found!" });
         }
         res.status(200).json(room);
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -42,7 +60,7 @@ const handlePostRooms = async (req, res, next) => {
         await newRoom.save();
         res.status(200).json({ message: "Room Successfully Created!", status: 200 })
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -58,7 +76,7 @@ const handleUpdateRoomsById = async (req, res, next) => {
         return res.status(200).json({ message: "Room Updated Successfully" });
 
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -71,7 +89,7 @@ const handleDeleteRoomsById = async (req, res, next) => {
         }
         res.status(200).json({ message: "Room Deleted Successfully!", status: 200 });
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
     }
 };
 

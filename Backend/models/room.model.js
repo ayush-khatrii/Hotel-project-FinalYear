@@ -21,7 +21,6 @@ const roomSchema = new mongoose.Schema({
     ],
     roomName: {
         type: String,
-        required: true
     },
     roomImages: [ //string from cloudinary URL 
         {
@@ -34,9 +33,17 @@ const roomSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+    }],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     isBooked: {
         type: Boolean,
-        required: true
+        required: false
     }
 })
 

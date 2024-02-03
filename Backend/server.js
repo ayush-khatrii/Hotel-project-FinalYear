@@ -12,10 +12,15 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
 import roomsRouter from './routes/rooms.js'
-
+import reviewRouter from './routes/review.js'
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -28,6 +33,7 @@ app.get('/', (req, res) => {
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use('/rooms', roomsRouter);
+app.use('/reviews', reviewRouter);
 
 
 // connectDB function called - MongoDB connection 
