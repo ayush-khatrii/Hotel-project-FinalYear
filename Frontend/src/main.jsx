@@ -14,6 +14,7 @@ import Signup from "./components/Signup.jsx";
 import Bookings from "./page/Bookings.jsx";
 import SingleRoom from "./page/SingleRoom.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import ProfileButton from "./components/Profile.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
 			{
 				path: "/rooms/:id",
 				element: <SingleRoom />,
+			},
+			{
+				path: "/profile",
+				element: <ProfileButton />,
 			},
 		],
 	},

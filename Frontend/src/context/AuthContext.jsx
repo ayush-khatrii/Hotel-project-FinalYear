@@ -3,15 +3,29 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
-	const [token, setToken] = useState(null);
+	const [user, setUser] = useState("");
+	const [token, setToken] = useState(localStorage.getItem("token"));
 
 	useEffect(() => {
-		const storedToken = localStorage.getItem("token");
-		if (storedToken) {
-			setToken(storedToken);
-		}
+		const getUser = async () => {
+			try {
+				const response = await fetch("http://localhost:3000/auth/user", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				const userData = await response.json();
+				setUser(userData);
+			} catch (error) {
+				console.error(error.message);
+				throw error;
+			}
+		};
+
+		getUser();
 	}, []);
 
 	const register = async (username, email, password) => {
@@ -24,12 +38,10 @@ export const AuthProvider = ({ children }) => {
 				body: JSON.stringify({ username, email, password }),
 			});
 
-			if (!response.ok) {
-				const data = await response.json();
-				setError(data.message);
-				throw new Error(data.message);
+			if (response.ok) {
+				const res_data = await response.json();
+				setUser(res_data);
 			}
-			const res_data = await response.json();
 		} catch (error) {
 			console.error("Registration error:", error.message);
 			throw error;
@@ -47,16 +59,13 @@ export const AuthProvider = ({ children }) => {
 				credentials: "include",
 			});
 
-			if (!response.ok) {
-				const data = await response.json();
-				setError(data.message);
-				throw new Error(data.message);
+			if (response.ok) {
+				const res_data = await response.json();
+				setToken((prevToken) => {
+					localStorage.setItem("token", res_data.token);
+					return res_data.token;
+				});
 			}
-
-			const res_data = await response.json();
-			console.log("After login data", res_data);
-			setToken(res_data.token);
-			localStorage.setItem("token", JSON.stringify(res_data.token));
 		} catch (error) {
 			console.error("Login error:", error.message);
 			throw error;
@@ -66,6 +75,8 @@ export const AuthProvider = ({ children }) => {
 	const logoutUser = () => {
 		setToken("");
 		localStorage.removeItem("token");
+		setUser(null);
+		window.location.href = "/";
 	};
 
 	let isLoggedIn = !!token;

@@ -27,7 +27,7 @@ export default () => {
 	return (
 		<>
 			{successMessage && (
-				<div className='bg-green-200 text-center text-green-800 p-2 mb-4'>
+				<div className='bg-green-200 text-center mt-20 text-green-800 p-2 mb-4'>
 					{successMessage}
 				</div>
 			)}

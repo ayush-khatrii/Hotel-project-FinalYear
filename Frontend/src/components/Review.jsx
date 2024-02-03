@@ -7,8 +7,6 @@ const Review = ({ reviews, roomId }) => {
 
 	const { isLoggedIn, token } = useAuth();
 
-	const access_token = JSON.parse(token);
-
 	const handlePostReview = async (e) => {
 		e.preventDefault();
 
@@ -22,7 +20,7 @@ const Review = ({ reviews, roomId }) => {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${access_token}`,
+					Authorization: `Bearer ${token}`,
 				},
 				body: JSON.stringify({
 					rating: rating,

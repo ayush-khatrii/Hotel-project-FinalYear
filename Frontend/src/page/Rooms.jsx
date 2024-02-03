@@ -45,7 +45,7 @@ const Rooms = () => {
 
 	return (
 		<div className=''>
-			<div className='container mx-auto py-5 lg:px-20 px-10'>
+			<div className='container mx-auto mt-20 py-5 lg:px-20 px-10'>
 				<div className='flex justify-center mb-8'>
 					<select
 						onChange={handleFilter}
@@ -76,14 +76,6 @@ const Rooms = () => {
 							placeholder='Search'
 							onChange={handleSearch}
 							className='w-full py-3 pl-12 pr-4 text-gray-500 border rounded border-neutral-600 -md outline-none '
-						/>
-					</div>
-					<div className='mx-3'>
-						<input
-							type='text'
-							placeholder='Search'
-							onChange={handleSearch}
-							className='w-full py-3 pl-5 pr-4 text-gray-500 border rounded border-neutral-600 -md outline-none '
 						/>
 					</div>
 				</div>

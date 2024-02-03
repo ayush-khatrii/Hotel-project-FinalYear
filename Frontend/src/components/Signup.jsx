@@ -28,7 +28,7 @@ export default () => {
 
 	return (
 		<>
-			<main className='w-full h-screen flex flex-col items-center justify-center lg:px-4 px-5 '>
+			<main className='w-full  h-screen flex flex-col items-center justify-center lg:px-4 px-5 '>
 				<div className='max-w-sm w-full  space-y-5'>
 					<div className='text-center pb-8'>
 						<a className='text-5xl font-black' href='/'>

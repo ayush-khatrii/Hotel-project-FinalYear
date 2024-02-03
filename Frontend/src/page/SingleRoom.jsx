@@ -24,7 +24,7 @@ const SingleRoom = () => {
 	}, []);
 
 	return (
-		<div className='container mx-auto py-10 px-10'>
+		<div className='container mx-auto mt-20 py-10 px-10'>
 			<div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
 				<div>
 					<img
