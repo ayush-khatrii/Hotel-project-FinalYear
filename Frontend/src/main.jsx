@@ -13,12 +13,13 @@ import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Bookings from "./page/Bookings.jsx";
 import SingleRoom from "./page/SingleRoom.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Layout />,
-		// errorElement: <ErrorPage />,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/",
@@ -53,5 +54,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<RouterProvider router={router} />
+	<AuthProvider>
+		<RouterProvider router={router} />
+	</AuthProvider>
 );

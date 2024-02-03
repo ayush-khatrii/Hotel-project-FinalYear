@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import AuthContext, { useAuth } from "../context/AuthContext";
+import ProfileButton from "./ProfileButton";
+
 const menuList = [
 	{ path: "/", name: "Home" },
 	{ path: "/rooms", name: "Room" },
@@ -9,6 +12,7 @@ const menuList = [
 
 const Navbar = () => {
 	const [toggle, setToggle] = useState(false);
+	const { isLoggedIn } = useAuth();
 
 	const handleToggle = () => {
 		setToggle(!toggle);
@@ -69,16 +73,25 @@ const Navbar = () => {
 							))}
 
 							<div className='flex items-center justify-center w-full gap-3 '>
-								<Link to={"/login"}>
-									<button className=' border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1    font-medium rounded-md '>
-										Login
-									</button>
-								</Link>
-								<Link to={"/signup"}>
-									<button className='  text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base  font-medium rounded-md '>
-										Signup
-									</button>
-								</Link>
+								{isLoggedIn ? (
+									<>
+										{/* <span></span> */}
+										<ProfileButton />
+									</>
+								) : (
+									<>
+										<Link to={"/login"}>
+											<button className=' border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1    font-medium rounded-md '>
+												Login
+											</button>
+										</Link>
+										<Link to={"/signup"}>
+											<button className='  text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base  font-medium rounded-md '>
+												Signup
+											</button>
+										</Link>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
@@ -97,16 +110,25 @@ const Navbar = () => {
 							</a>
 						))}
 						<div className='flex flex-col w-full gap-3 pt-5'>
-							<Link to={"/login"}>
-								<button className=' border text-red-500 border-red-700 lg:w-auto w-full px-3 py-2  lg:text-xl  font-medium rounded-md '>
-									Login
-								</button>
-							</Link>
-							<Link to={"/signup"}>
-								<button className=' text-white bg-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md '>
-									Signup
-								</button>
-							</Link>
+							{isLoggedIn ? (
+								<>
+									<span>Hello {user?.username}</span>
+									<ProfileButton />
+								</>
+							) : (
+								<>
+									<Link to={"/login"}>
+										<button className=' border text-red-500 border-red-700 lg:w-auto w-full px-3 py-2  lg:text-xl  font-medium rounded-md '>
+											Login
+										</button>
+									</Link>
+									<Link to={"/signup"}>
+										<button className=' text-white bg-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md '>
+											Signup
+										</button>
+									</Link>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
