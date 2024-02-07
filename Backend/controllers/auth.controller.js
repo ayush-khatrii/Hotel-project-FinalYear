@@ -65,13 +65,37 @@ export const loginUser = async (req, res, next) => {
 		// using rest operatu
 		const { password, bookings, isAdmin, ...others } = email._doc;
 
+		// Sending res to the frontend with cookies 
 		res.cookie("access_token", token, {
 			httpOnly: true
 		});
-		// Sending res to the frontend with cookies 
 		res.status(201).json({ ...others, token, success: true });
 
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 };
+
+
+// Get user data function 
+export const getUser = async (req, res) => {
+
+	const token = req.header('Authorization');
+	const jwtToken = token.replace("Bearer", "").trim();
+
+	if (!token) {
+		res.status(401).json({ message: "Unauthorized  Token not provided!" })
+	}
+
+	try {
+
+		const verifiedUser = jwt.verify(jwtToken, process.env.JWT);
+		const userId = verifiedUser.id;
+		const user = await User.findById(userId).select("-password");
+
+		res.status(200).json({ user: user })
+	} catch (error) {
+		res.status(401).json({ message: "Unauthorized. Invalid token!" })
+	}
+
+}
