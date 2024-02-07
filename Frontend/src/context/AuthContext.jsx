@@ -66,6 +66,10 @@ export const AuthProvider = ({ children }) => {
 					return res_data.token;
 				});
 			}
+
+			if (!response.ok) {
+				alert("Something went wrong !!");
+			}
 		} catch (error) {
 			console.error("Login error:", error.message);
 			throw error;

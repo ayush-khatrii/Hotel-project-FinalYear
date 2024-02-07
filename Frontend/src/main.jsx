@@ -7,7 +7,6 @@ import Layout from "./layout.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./page/ErrorPage.jsx";
 import Rooms from "./page/Rooms.jsx";
-import Restaurants from "./page/Restaurants.jsx";
 
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
@@ -29,10 +28,6 @@ const router = createBrowserRouter([
 			{
 				path: "/rooms",
 				element: <Rooms />,
-			},
-			{
-				path: "/restaurant",
-				element: <Restaurants />,
 			},
 			{
 				path: "/login",

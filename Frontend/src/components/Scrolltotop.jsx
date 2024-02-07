@@ -4,7 +4,7 @@ const ScrollToTop = () => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	const handleScroll = () => {
-		setIsVisible(window.scrollY > 200); // sets value either - true or false
+		setIsVisible(window.scrollY > 200);
 	};
 
 	const scrollToTop = () => {
@@ -33,4 +33,3 @@ const ScrollToTop = () => {
 	);
 };
 export default ScrollToTop;
-

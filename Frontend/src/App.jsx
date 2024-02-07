@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Home from "./containers/Home";
-import RoomSection from "./containers/RoomSection";
-import RestaurantSection from "./containers/RestaurantSection";
-import ContactSection from "./containers/ContactSection ";
+import Home from "./components/Home";
+import RoomSection from "./components/RoomSection";
+import ContactSection from "./components/ContactSection ";
 import Scrolltotop from "./components/Scrolltotop";
 
 const App = () => {
-	useEffect(() => {
-		
-	}, []);
-
 	return (
 		<>
 			<Home />
 			<RoomSection />
-			<RestaurantSection />
 			<ContactSection />
 			<Scrolltotop />
 		</>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Roomcard from "../components/Roomcard";
+import Roomcard from "./Roomcard";
 import { Link } from "react-router-dom";
 
 const RoomSection = () => {

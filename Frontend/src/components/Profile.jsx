@@ -30,15 +30,9 @@ const Profile = () => {
 									{user?.user?.email}
 								</p>
 							</div>
-							<button
-								onClick={logoutUser}
-								className='text-white bg-red-700 px-2 py-1 text-base  mt-10 font-medium rounded'
-							>
-								Logout
-							</button>
 						</div>
 					</div>
-					{/* <div className='flex flex-col'>
+					<div className='flex flex-col'>
 						<h1 className='font-bold text-xl my-5'>Your Bookings</h1>
 						<div className='flex flex-col justify-center item-center text-center'>
 							<div className='flex gap-5  bg-gray-300 flex-col sm:flex-row lg:justify-start lg:items-start'>
@@ -56,8 +50,14 @@ const Profile = () => {
 								</div>
 							</div>
 						</div>
-					</div> */}
+					</div>
 				</div>
+				<button
+					onClick={logoutUser}
+					className='text-white bg-red-700 px-2 py-1 text-base  mt-10 font-medium rounded'
+				>
+					Logout
+				</button>
 			</div>
 		</>
 	);

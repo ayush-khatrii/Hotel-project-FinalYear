@@ -6,7 +6,6 @@ import { CircleUser, CircleUserRound, User } from "lucide-react";
 const menuList = [
 	{ path: "/", name: "Home" },
 	{ path: "/rooms", name: "Room" },
-	{ path: "/restaurant", name: "Restaurant" },
 ];
 
 const Navbar = () => {
