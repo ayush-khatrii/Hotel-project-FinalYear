@@ -3,15 +3,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 html {
 	scroll-behavior: smooth;
-}
+} */
 
 body {
-	font-family: "Karla", sans-serif;
+  font-family: "Karla", sans-serif;
 }
 
 .dropdown:hover .dropdown-menu {
-	display: block;
+  display: block;
 }

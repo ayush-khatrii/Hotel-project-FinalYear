@@ -1,137 +1,198 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Review from "../components/Review";
-import { Minus, Plus } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const SingleRoom = () => {
-	const [roomDetails, setRoomDetails] = useState({});
-	const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-	const [checkIn, setCheckIn] = useState("");
-	const [checkOut, setCheckOut] = useState("");
-	const [adults, setAdults] = useState(1);
-	const [childern, setChildren] = useState(0);
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [adults, setAdults] = useState(0);
+  const [singleRoomDetails, setSingleRoomDetails] = useState([]);
+  const [children, setChildren] = useState(0);
+  const navigate = useNavigate();
 
-	const { id } = useParams();
+  const [totalNights, setTotalNights] = useState(0);
+  const { id } = useParams();
 
-	const fetchRoom = async () => {
-		try {
-			const response = await fetch(`http://localhost:3000/rooms/${id}`);
-			const roomsData = await response.json();
-			setRoomDetails(roomsData);
-			setReviews(roomsData.reviews);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  const { isLoggedIn } = useAuth();
 
-	useEffect(() => {
-		fetchRoom();
-	}, []);
+  const fetchRoom = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/rooms/${id}`);
+      const roomsData = await response.json();
+      setSingleRoomDetails(roomsData);
+      setReviews(roomsData.reviews);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-	//   Handle Increment Decrement button clicks
-	const handleAdultsDecrement = () => {
-		setAdults((prevValue) => prevValue - 1);
-	};
-	const handleAdultsIncrement = () => {
-		setAdults((prevValue) => prevValue + 1);
-	};
-	const handleChildernDecrement = () => {
-		setChildren((prevValue) => prevValue - 1);
-	};
-	const handleChildernIncrement = () => {
-		setChildren((prevValue) => prevValue + 1);
-	};
+  useEffect(() => {
+    fetchRoom();
+    window.scrollTo(0, 0);
+  }, []);
 
-	return (
-		<div className='container mx-auto mt-20 py-10 px-10'>
-			<div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
-				<div>
-					<img
-						src={roomDetails.roomImages && roomDetails.roomImages[0]}
-						alt={roomDetails.roomName}
-						className='w-full h-96 object-cover mb-6 rounded-lg'
-					/>
-				</div>
-				<div className='flex flex-col'>
-					<h1 className='text-4xl font-bold mb-4'>{roomDetails.roomType}</h1>
-					<p className='text-gray-600 mb-6'>{roomDetails.description}</p>
-					<div className='flex items-start text-center  justify-center flex-col mb-6'>
-						<p className='text-2xl font-bold text-gray-700'>
-							Beds: {roomDetails.numberofbeds}
-						</p>
-						<p className='text-2xl font-bold text-gray-700'>
-							Price: ${roomDetails.price}/night
-						</p>
-					</div>
-					<div className='mb-6'>
-						<p className='text-lg font-bold mb-2'>Amenities:</p>
-						<ul className='flex flex-wrap gap-2 text-lg text-gray-600'>
-							{roomDetails.ammenities?.map((amenity, index) => (
-								<li key={index} className='rounded-full bg-gray-200 px-3 py-1'>
-									{amenity}
-								</li>
-							))}
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div className='check-in-out gap-5 flex flex-col md:flex-row justify-center items-center text-center my-20'>
-				<div className='flex flex-col justify-center  items-start'>
-					<label htmlFor=''>Check-In</label>
-					<input type='date' className='border border-zinc-700 p-2' />
-				</div>
-				<div className='flex flex-col justify-center items-start'>
-					<label htmlFor=''>Check-Out</label>
-					<input type='date' className='border border-zinc-700 p-2' />
-				</div>
-				<div className='flex flex-col justify-center items-start'>
-					<label htmlFor=''>Adults</label>
-					<div className='border border-zinc-500 py-1 px-4 flex justify-center items-center gap-5'>
-						<button
-							onClick={handleAdultsDecrement}
-							disabled={adults <= 1}
-							className={`bg-gray-400 rounded-full  border-slate-200 p-2 cursor-pointer`}
-						>
-							<Minus />
-						</button>
-						<span className='font-bold text-xl '>{adults}</span>
-						<button
-							onClick={handleAdultsIncrement}
-							className='bg-gray-400 rounded-full  border-slate-200 p-2 cursor-pointer'
-						>
-							<Plus />
-						</button>
-					</div>
-				</div>
-				<div className='flex flex-col justify-center items-start'>
-					<label htmlFor=''>Childerns</label>
-					<div className='border border-zinc-500 py-1 px-4 flex justify-center items-center gap-5'>
-						<button
-							disabled={childern <= 1}
-							onClick={handleChildernDecrement}
-							className='bg-gray-400  rounded-full  border-slate-200 p-2 cursor-pointer'
-						>
-							<Minus />
-						</button>
-						<span className='font-bold text-xl '>{childern}</span>
-						<button
-							onClick={handleChildernIncrement}
-							className='bg-gray-400 rounded-full border-slate-200 p-2 cursor-pointer'
-						>
-							<Plus />
-						</button>
-					</div>
-				</div>
-			</div>
-			<div className='flex justify-center items-center w-full'>
-				<button className='p-2 bg-red-700 text-white rounded-md hover:bg-red-900'>
-					Reserve or Book Now
-				</button>
-			</div>
-			<Review reviews={reviews} roomId={id} />
-		</div>
-	);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!checkIn || !checkOut || adults < 1) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    if (!isLoggedIn) {
+      toast.error("Please login first");
+      return;
+    }
+    const today = new Date();
+    const checkinDate = new Date(checkIn);
+    const checkoutDate = new Date(checkOut);
+
+    if (checkoutDate.getTime() === checkinDate.getTime()) {
+      toast.error("Check-in and check-out dates cannot be the same.");
+      return;
+    }
+    if (checkoutDate.getTime() < checkinDate.getTime()) {
+      toast.error("Invalid Dates Selection!!");
+      return;
+    }
+
+    if (
+      checkinDate.getTime() < today.getTime() &&
+      checkoutDate.getTime() < today.getTime()
+    ) {
+      toast.error("You cannot select previous date !! ");
+      return;
+    }
+
+    const diff =
+      Math.abs(checkoutDate.getTime() - checkinDate.getTime()) /
+      (1000 * 60 * 60 * 24);
+
+    if (diff < 0) {
+      alert("something something.......");
+    }
+
+    setTotalNights(diff);
+
+    navigate(`/${id}/confirm-booking`, {
+      state: {
+        singleRoomDetails: singleRoomDetails,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        adults: adults,
+        children: children,
+        price: singleRoomDetails.price * diff,
+        totalNights: diff,
+        imgUrl: singleRoomDetails.roomImages[0],
+      },
+    });
+  };
+
+  return (
+    <div className="container max-w-7xl mx-auto mt-20 Z px-10">
+      <div className="grid grid-cols-1  gap-10">
+        <div>
+          <img
+            src={
+              singleRoomDetails.roomImages && singleRoomDetails.roomImages[0]
+            }
+            alt={singleRoomDetails.roomName}
+            className="w-full h-96 object-center object-cover mb-6"
+          />
+        </div>
+        <div className="flex lg:flex-row justify-between flex-col">
+          <div>
+            <h1 className="text-4xl font-bold mb-4 capitalize">
+              {singleRoomDetails.roomType}
+            </h1>
+            <p className="text-gray-600 mb-6 w-1/2">
+              {singleRoomDetails.description}
+            </p>
+            <div className="flex items-start justify-center flex-col mb-6">
+              <p className="text-2xl font-bold text-gray-700">
+                Beds: {singleRoomDetails.numberofbeds}
+              </p>
+              <p className="text-2xl font-bold text-gray-700">
+                Price: ₹{singleRoomDetails.price}/night
+              </p>
+            </div>
+            <p className="text-lg font-bold mb-3">Amenities:</p>
+            <ul className="flex flex-wrap gap-2 text-lg text-gray-600">
+              {singleRoomDetails.ammenities?.map((amenity, index) => (
+                <li
+                  key={index}
+                  className="rounded-full border border-gray-600 bg-gray-200 px-3 py-1"
+                >
+                  {amenity}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className=" gap-5 flex flex-col justify-center items-center text-left my-5 mt-10">
+              <div className="grid grid-cols-1 w-full sm:grid-cols-2 gap-5">
+                <div>
+                  <label>Check-In</label>
+                  <input
+                    required
+                    type="date"
+                    value={checkIn}
+                    onChange={(e) => setCheckIn(e.target.value)}
+                    className="border border-zinc-500 py-2 px-4 w-full"
+                  />
+                </div>
+                <div>
+                  <label>Check-Out</label>
+                  <input
+                    required
+                    type="date"
+                    value={checkOut}
+                    onChange={(e) => setCheckOut(e.target.value)}
+                    className="border border-zinc-500 py-2 px-4 w-full"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 w-full gap-5">
+                <div>
+                  <label>Number of Adults</label>
+                  <input
+                    required
+                    type="number"
+                    min="1"
+                    className="border border-zinc-500 py-2 px-4 w-full"
+                    value={adults}
+                    onChange={(e) => setAdults(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label>Number of Children</label>
+                  <input
+                    type="number"
+                    className="border border-zinc-500 py-2 px-4 w-full"
+                    value={children}
+                    onChange={(e) => setChildren(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="w-full">
+              <button
+                type="submit"
+                className="w-full px-3 py-2 bg-red-700 text-white rounded-md hover:bg-red-900"
+              >
+                Reserve
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <Review />
+    </div>
+  );
 };
 
 export default SingleRoom;
