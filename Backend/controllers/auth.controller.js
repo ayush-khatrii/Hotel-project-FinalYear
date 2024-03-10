@@ -63,7 +63,7 @@ export const loginUser = async (req, res, next) => {
 
 
 		// using rest operatu
-		const { password, bookings, isAdmin, ...others } = email._doc;
+		const { password, isAdmin, ...others } = email._doc;
 
 		// Sending res to the frontend with cookies 
 		res.cookie("access_token", token, {

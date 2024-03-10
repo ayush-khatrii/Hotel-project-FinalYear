@@ -1,9 +1,8 @@
 import mongoose from 'mongoose'
 
-// Review Schema
 const reviewSchema = new mongoose.Schema({
     rating: {
-        type: Number,
+        type: Number,  
         required: true
     },
     comment: {
@@ -20,8 +19,7 @@ const reviewSchema = new mongoose.Schema({
         ref: 'Room',
         required: true
     },
-})
+});
 
-// Exporting Review as model from Room schema
 const Review = mongoose.model("Review", reviewSchema);
 export default Review;
