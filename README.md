@@ -9,11 +9,6 @@ This repository contains a comprehensive hotel booking system designed for a loc
 - **Room Availability:** Check room availability for specific dates.
 - **Booking Management:** Administrators can manage room bookings, view reservations, and update availability.
 
-### Restaurant Table Booking
-- **Table Reservation:** Guests can book tables in the restaurant for dining.
-- **Table Availability:** Check table availability for specific dates and meal times.
-- **Booking Management:** Administrators can manage restaurant table bookings, view reservations, and update availability.
-
 ## Technologies Used
 
 - **Frontend:** React js , Tailwind Css
