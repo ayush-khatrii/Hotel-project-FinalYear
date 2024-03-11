@@ -101,7 +101,7 @@ const SingleRoom = () => {
               singleRoomDetails.roomImages && singleRoomDetails.roomImages[0]
             }
             alt={singleRoomDetails.roomName}
-            className="w-full h-96 object-center object-cover mb-6"
+            className="w-full h-auto object-center object-cover mb-6"
           />
         </div>
         <div className="flex lg:flex-row justify-between flex-col">
