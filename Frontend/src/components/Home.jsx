@@ -1,6 +1,10 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <section className="container mb-20 mx-auto lg:px-8 flex flex-col lg:flex-row justify-around items-center mt-28 ">

@@ -7,34 +7,49 @@ const Profile = () => {
   const { logoutUser, user, token } = useAuth();
 
   const [bookings, setBookings] = useState([]);
+  const fetchBookingData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/users/${user.user._id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const result = await response.json();
+      setBookings(result.booking);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   useEffect(() => {
-    if (user && user.user._id) {
-      const fetchBookingData = async () => {
-        try {
-          const response = await fetch(
-            `http://localhost:3000/users/${user.user._id}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          const result = await response.json();
-          setBookings(result.booking);
-        } catch (error) {
-          toast.error(error.message);
-        }
-      };
-
+    if (user && user.user && user.user._id) {
       fetchBookingData();
     }
   }, [user]);
 
-  console.log(bookings);
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/bookings/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      setBookings(bookings.filter((item) => item._id !== id));
+      toast.success(data.message, { duration: 2000 });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <Toaster />
@@ -43,9 +58,6 @@ const Profile = () => {
           <div className="flex flex-col">
             <div className="flex justify-start gap-10 items-center">
               <h1 className="font-bold text-xl my-5">Personal Information</h1>
-              <span className="cursor-pointer text-blue-600 ">
-                <Edit size={20} />
-              </span>
             </div>
             <div className="flex flex-col justify-center item-center text-center">
               <div className="flex ">
@@ -67,45 +79,57 @@ const Profile = () => {
           <div>
             <button
               onClick={logoutUser}
-              className="text-white bg-red-700 px-2 py-1 text-base  mt-10 font-medium rounded"
+              className="text-white rounded bg-red-600 px-2 py-1 text-base  mt-10 font-medium "
             >
               Logout
             </button>
           </div>
-          <div className="flex flex-col items-center justify-center space-y-5">
+          <div className="mt-20">
             <h1 className="font-bold text-xl my-5">Your Bookings</h1>
-            {bookings.map((item, index) => (
-              <div className="bg-white shadow-lg p-5 rounded-lg" key={index}>
-                <div className="flex flex-col md:flex-row items-center md:items-start">
-                  <img
-                    src={
-                      item?.imgUrl || "https://via.placeholder.com/1920x1280"
-                    }
-                    alt="Booking Image"
-                    className="w-full md:w-1/4 h-auto object-cover rounded-lg mb-5 md:mb-0 md:mr-5"
-                  />
-                  <div className="flex flex-col">
-                    <h1 className="font-bold text-xl mb-2">
-                      This is booking title
-                    </h1>
-                    <p className="mb-2">
-                      Check-in:{" "}
-                      {new Date(item.checkindate).toLocaleDateString()}
-                    </p>
-                    <p className="mb-2">
-                      Check-out:{" "}
-                      {new Date(item.checkoutdate).toLocaleDateString()}
-                    </p>
-                    <p className="mb-2">Adults: {item.adults}</p>
-                    <p className="mb-2">Children: {item.children}</p>
-                    <p className="mb-2">Phone Number: {item.phoneNumber}</p>
-                    <span className="font-bold text-lg">
-                      ₹{item?.totalPrice}
-                    </span>
+            <div className="container mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {bookings.map((item, index) => (
+                  <div
+                    className="border border-gray-400 overflow-hidden bg-white shadow-xl rounded"
+                    key={index}
+                  >
+                    <img
+                      src={
+                        item?.imgUrl || "https://via.placeholder.com/1920x1280"
+                      }
+                      alt="Room"
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4 text-lg">
+                      <h1 className="font-bold text-xl mb-2">
+                        {item.roomType}
+                      </h1>
+                      <p className="mb-2">
+                        Check-in:
+                        {new Date(item.checkindate).toLocaleDateString()}
+                      </p>
+                      <p className="mb-2">
+                        Check-out:
+                        {new Date(item.checkoutdate).toLocaleDateString()}
+                      </p>
+                      <p className="mb-2">Adults: {item.adults}</p>
+                      <p className="mb-2">Children: {item.children}</p>
+                      <span className="font-bold text-xl">
+                        ₹{item?.totalPrice}
+                      </span>
+                    </div>
+                    <div className="p-4 flex justify-end">
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="px-3 w-full py-[5px] bg-red-600 rounded text-white"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

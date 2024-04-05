@@ -6,17 +6,17 @@ import toast from "react-hot-toast";
 
 const SingleRoom = () => {
   const [reviews, setReviews] = useState([]);
-
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [adults, setAdults] = useState(0);
   const [singleRoomDetails, setSingleRoomDetails] = useState([]);
   const [children, setChildren] = useState(0);
-  const navigate = useNavigate();
-
   const [totalNights, setTotalNights] = useState(0);
+
+  const navigate = useNavigate();
   const { id } = useParams();
 
+  const today = new Date().toISOString().split("T")[0];
   const { isLoggedIn } = useAuth();
 
   const fetchRoom = async () => {
@@ -44,10 +44,13 @@ const SingleRoom = () => {
     }
 
     if (!isLoggedIn) {
-      toast.error("Please login first");
+      setTimeout(() => {
+        toast.error("Please login to book room!");
+      }, 2000);
+      navigate("/login");
+      localStorage.setItem("non-auth-bookings", id);
       return;
     }
-    const today = new Date();
     const checkinDate = new Date(checkIn);
     const checkoutDate = new Date(checkOut);
 
@@ -55,26 +58,10 @@ const SingleRoom = () => {
       toast.error("Check-in and check-out dates cannot be the same.");
       return;
     }
-    if (checkoutDate.getTime() < checkinDate.getTime()) {
-      toast.error("Invalid Dates Selection!!");
-      return;
-    }
-
-    if (
-      checkinDate.getTime() < today.getTime() &&
-      checkoutDate.getTime() < today.getTime()
-    ) {
-      toast.error("You cannot select previous date !! ");
-      return;
-    }
 
     const diff =
       Math.abs(checkoutDate.getTime() - checkinDate.getTime()) /
       (1000 * 60 * 60 * 24);
-
-    if (diff < 0) {
-      alert("something something.......");
-    }
 
     setTotalNights(diff);
 
@@ -122,7 +109,7 @@ const SingleRoom = () => {
             </div>
             <p className="text-lg font-bold mb-3">Amenities:</p>
             <ul className="flex flex-wrap gap-2 text-lg text-gray-600">
-              {singleRoomDetails.ammenities?.map((amenity, index) => (
+              {singleRoomDetails.amenities?.map((amenity, index) => (
                 <li
                   key={index}
                   className="rounded-full border border-gray-600 bg-gray-200 px-3 py-1"
@@ -141,6 +128,7 @@ const SingleRoom = () => {
                     required
                     type="date"
                     value={checkIn}
+                    min={today}
                     onChange={(e) => setCheckIn(e.target.value)}
                     className="border border-zinc-500 py-2 px-4 w-full"
                   />
@@ -150,6 +138,7 @@ const SingleRoom = () => {
                   <input
                     required
                     type="date"
+                    min={today}
                     value={checkOut}
                     onChange={(e) => setCheckOut(e.target.value)}
                     className="border border-zinc-500 py-2 px-4 w-full"
@@ -172,6 +161,7 @@ const SingleRoom = () => {
                   <label>Number of Children</label>
                   <input
                     type="number"
+                    min="0"
                     className="border border-zinc-500 py-2 px-4 w-full"
                     value={children}
                     onChange={(e) => setChildren(e.target.value)}

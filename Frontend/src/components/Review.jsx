@@ -46,7 +46,6 @@ const Review = () => {
       });
 
       const data = await response.json();
-      // console.log(data);
 
       toast.success(data.message, { duration: 2000 });
       if (!response.ok) {

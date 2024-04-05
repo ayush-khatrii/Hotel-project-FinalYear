@@ -1,7 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { CircleUser, CircleUserRound, User } from "lucide-react";
+import {
+  CircleUserRound,
+  MenuIcon,
+  User,
+  ChevronRight,
+  XIcon,
+} from "lucide-react";
+
 const menuList = [
   { path: "/", name: "Home" },
   { path: "/rooms", name: "Room" },
@@ -10,7 +17,6 @@ const menuList = [
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const { isLoggedIn, user } = useAuth();
-
   const handleToggle = () => {
     setToggle(!toggle);
   };
@@ -34,40 +40,12 @@ const Navbar = () => {
                 </Link>
               ) : null}
               <button onClick={handleToggle} className="block">
-                {toggle ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3.293 4.293a1 1 0 011.414 0L10 8.586l5.293-5.293a1 1 0 111.414 1.414L11.414 10l5.293 5.293a1 1 0 01-1.414 1.414L10 11.414l-5.293 5.293a1 1 0 01-1.414-1.414L8.586 10 3.293 4.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16m-7 6h7"
-                    />
-                  </svg>
-                )}
+                {toggle ? <XIcon /> : <MenuIcon />}
               </button>
             </div>
           </div>
           <div className="hidden md:block">
-            <div className="flex  justify-center items-center">
+            <div className="flex justify-center items-center">
               {menuList.map((item, index) => (
                 <Link
                   key={index}
@@ -78,24 +56,30 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              <div className="flex items-center justify-center w-full gap-3 ">
+              <div className="flex items-center justify-center w-full gap-3">
                 {isLoggedIn ? (
-                  <>
+                  user?.user?.isAdmin ? (
+                    <Link to={"/admin"}>
+                      <button className="flex justify-center items-center text-center gap-1 bg-red-700 text-white px-2 py-1 rounded">
+                        Go to Dashboard <ChevronRight size={10} />
+                      </button>
+                    </Link>
+                  ) : (
                     <Link to={"/profile"}>
-                      <div className="py-1 px-3 flex justify-center items-center ">
+                      <div className="py-1 px-3 flex justify-center items-center">
                         <User size={20} />
                       </div>
                     </Link>
-                  </>
+                  )
                 ) : (
                   <>
                     <Link to={"/login"}>
-                      <button className=" border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1    font-medium rounded-md ">
+                      <button className="border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1 font-medium rounded-md">
                         Login
                       </button>
                     </Link>
                     <Link to={"/signup"}>
-                      <button className="  text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base  font-medium rounded-md ">
+                      <button className="text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base font-medium rounded-md">
                         Signup
                       </button>
                     </Link>
@@ -118,16 +102,30 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
-            <div className="flex flex-col px-3 w-full gap-3 ">
-              {isLoggedIn == true ? null : (
+            <div className="flex items-center justify-center w-full gap-3">
+              {isLoggedIn ? (
+                user?.user?.isAdmin ? (
+                  <Link to={"/admin"}>
+                    <button className="flex justify-center items-center text-center gap-1 bg-red-700 text-white px-2 py-1 rounded">
+                      Go to Dashboard <ChevronRight size={10} />
+                    </button>
+                  </Link>
+                ) : (
+                  <Link to={"/profile"}>
+                    <div className="py-1 px-3 flex justify-center items-center">
+                      <User size={20} />
+                    </div>
+                  </Link>
+                )
+              ) : (
                 <>
                   <Link to={"/login"}>
-                    <button className=" border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1    font-medium rounded-md ">
+                    <button className="border text-red-500 border-red-700 lg:w-auto w-full px-2 py-1 font-medium rounded-md">
                       Login
                     </button>
                   </Link>
                   <Link to={"/signup"}>
-                    <button className="  text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base  font-medium rounded-md ">
+                    <button className="text-white bg-red-700 lg:w-auto w-full px-2 py-1 text-base font-medium rounded-md">
                       Signup
                     </button>
                   </Link>

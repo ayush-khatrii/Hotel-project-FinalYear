@@ -5,14 +5,14 @@ import ContactSection from "./components/ContactSection ";
 import Scrolltotop from "./components/Scrolltotop";
 
 const App = () => {
-	return (
-		<>
-			<Home />
-			<RoomSection />
-			<ContactSection />
-			<Scrolltotop />
-		</>
-	);
+  return (
+    <>
+      <Home />
+      <RoomSection />
+      <ContactSection />
+      <Scrolltotop />
+    </>
+  );
 };
 
 export default App;

@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
 
 const ConfirmBooking = () => {
-  const [phone, setPhone] = useState("");
   const location = useLocation();
   const { id } = useParams();
 
@@ -40,7 +39,6 @@ const ConfirmBooking = () => {
             checkInDate: checkIn,
             checkOutDate: checkOut,
             totalPrice: price,
-            phone,
             imgUrl,
           }),
         }
@@ -56,7 +54,6 @@ const ConfirmBooking = () => {
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
     }
   };
 
@@ -104,21 +101,6 @@ const ConfirmBooking = () => {
                   id="email"
                   name="email"
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-red-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="phoneNumber"
-                  className=" text-gray-700 font-bold mb-2"
-                >
-                  Phone Number:
-                </label>
-                <input
-                  value={phone}
-                  type="number"
-                  name="phoneNumber"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-red-500"
-                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div className="flex justify-end">

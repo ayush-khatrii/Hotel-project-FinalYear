@@ -20,9 +20,17 @@ import Users from "./admin/admin-components/Users.jsx";
 import Bookings from "./admin/admin-components/Bookings.jsx";
 import HotelRooms from "./admin/admin-components/HotelRooms.jsx";
 import AdminLayout from "./admin/AdminLayout.jsx";
+import UserReview from "./admin/admin-components/UserReviews.jsx";
 
 import { AuthProvider } from "./context/AuthContext.jsx";
 import Home from "./admin/admin-components/Home.jsx";
+import AdminList from "./admin/admin-components/AdminList.jsx";
+import AdminLogin from "./components/AdminLogin.jsx";
+import AddRooms from "./admin/admin-components/AddRooms.jsx";
+import AdminProfile from "./admin/admin-components/AdminProfile.jsx";
+import UpdateUser from "./admin/admin-components/UpdateUser.jsx";
+import ContactData from "./admin/admin-components/ContactData.jsx";
+import UpdateRoom from "./admin/admin-components/UpdateRoom.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/admin-login",
+        element: <AdminLogin />,
       },
       {
         path: "/signup",
@@ -87,12 +99,40 @@ const router = createBrowserRouter([
         element: <Users />,
       },
       {
+        path: "/admin/admins",
+        element: <AdminList />,
+      },
+      {
         path: "/admin/bookings",
         element: <Bookings />,
       },
       {
         path: "/admin/hotelrooms",
         element: <HotelRooms />,
+      },
+      {
+        path: "/admin/post-rooms",
+        element: <AddRooms />,
+      },
+      {
+        path: "/admin/reviews",
+        element: <UserReview />,
+      },
+      {
+        path: "/admin/profile",
+        element: <AdminProfile />,
+      },
+      {
+        path: "/admin/users/:id",
+        element: <UpdateUser />,
+      },
+      {
+        path: "/admin/contacts",
+        element: <ContactData />,
+      },
+      {
+        path: "/admin/room/:id",
+        element: <UpdateRoom />,
       },
     ],
   },

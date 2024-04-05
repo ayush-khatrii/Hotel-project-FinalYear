@@ -62,18 +62,44 @@ export const AuthProvider = ({ children }) => {
 
       const responseData = await response.json();
 
-      console.log("Response from the server : ", responseData);
+      if (response.ok) {
+        const token = responseData.token;
+        localStorage.setItem("token", token);
+        setToken(token);
+        return {
+          user: responseData,
+        };
+      } else {
+        throw new Error(responseData.message || "Failed to login");
+      }
+    } catch (error) {
+      console.error("Login error:", error.message);
+      setError(error.message);
+      throw error;
+    }
+  };
+  const adminLogin = async (email, password) => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/admin-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      });
+
+      const responseData = await response.json();
 
       if (response.ok) {
         const token = responseData.token;
         localStorage.setItem("token", token);
         setToken(token);
       } else {
-        throw new Error(responseData.message || "Failed to login");
+        throw new Error(responseData.message || "Admin Failed to login");
       }
     } catch (error) {
-      console.error("Login error:", error.message);
-      console.log(error.message);
+      console.error("Admin Login error:", error.message);
       setError(error.message);
       throw error;
     }
@@ -82,6 +108,7 @@ export const AuthProvider = ({ children }) => {
   const logoutUser = () => {
     setToken("");
     localStorage.removeItem("token");
+    localStorage.removeItem("non-auth-bookings");
     setUser(null);
     window.location.href = "/";
   };
@@ -90,7 +117,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, error, isLoggedIn, login, register, logoutUser, token }}
+      value={{
+        user,
+        error,
+        isLoggedIn,
+        login,
+        adminLogin,
+        register,
+        logoutUser,
+        token,
+      }}
     >
       {children}
     </AuthContext.Provider>
