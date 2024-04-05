@@ -16,10 +16,10 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phoneNumber: {
-    type: Number,
-    required: true,
-  },
+  // phoneNumber: {
+  //   type: Number,
+  //   required: true,
+  // },
   checkindate: {
     type: Date,
     required: true,

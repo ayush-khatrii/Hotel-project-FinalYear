@@ -13,7 +13,7 @@ const roomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ammenities: [
+  amenities: [
     {
       type: String,
     },

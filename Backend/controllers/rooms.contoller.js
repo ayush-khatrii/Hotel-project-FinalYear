@@ -46,7 +46,7 @@ const handlePostRooms = async (req, res, next) => {
     roomType: req.body.roomType,
     price: req.body.price,
     description: req.body.description,
-    ammenities: req.body.ammenities,
+    amenities: req.body.amenities,
     roomName: req.body.roomName,
     roomImages: req.body.roomImages,
     numberofbeds: req.body.numberofbeds,

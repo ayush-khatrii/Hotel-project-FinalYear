@@ -3,7 +3,7 @@ import User from "../models/users.model.js";
 // Get All Users
 const handleGetAllUsers = async (req, res, next) => {
   try {
-    const allUsers = await User.find({}).select("-password -isAdmin");
+    const allUsers = await User.find({}).select("-password");
     res.status(200).json(allUsers);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,7 +14,7 @@ const handleGetAllUsers = async (req, res, next) => {
 const handleGetUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-      .select("-password -isAdmin")
+      .select("-password")
       .populate("booking");
     // const { password, isAdmin, ...others } = user;
     if (!user) {

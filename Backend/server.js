@@ -14,6 +14,7 @@ import roomsRouter from "./routes/rooms.js";
 import reviewRouter from "./routes/review.js";
 import checkoutRouter from "./routes/stripe.js";
 import bookingRouter from "./routes/booking.js";
+import contactRouter from "./routes/contact.js";
 
 // Middlewares
 const corsOptions = {
@@ -37,10 +38,11 @@ app.use("/rooms", roomsRouter);
 app.use("/reviews", reviewRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/bookings", bookingRouter);
+app.use("/contact", contactRouter);
 
 // connectDB function called - MongoDB connection
 connectDB().then(() => {
   app.listen(port, () => {
     console.log(`Example app listening on port http://localhost:${port}`);
-  });
+  }); 
 });

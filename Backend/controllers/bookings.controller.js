@@ -3,7 +3,10 @@ import Booking from "../models/booking.models.js";
 // Get all bookings for the current user
 const handleGetAllBookings = async (req, res) => {
   try {
-    const userBookings = await Booking.find();
+    const userBookings = await Booking.find().populate({
+      path: "user",
+      select: "username",
+    });
     res.status(200).json(userBookings);
   } catch (error) {
     res.status(500).json({ message: error.message });

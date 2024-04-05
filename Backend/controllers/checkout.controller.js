@@ -7,7 +7,6 @@ const handleCheckout = async (req, res) => {
     const {
       singleRoomDetails,
       totalPrice,
-      phone,
       adults,
       imgUrl,
       children,
@@ -45,7 +44,6 @@ const handleCheckout = async (req, res) => {
     const newBooking = new Booking({
       room: singleRoomDetails._id,
       user: userId,
-      phoneNumber: Number(phone),
       checkindate: checkInDate,
       checkoutdate: checkOutDate,
       adults: adults,
