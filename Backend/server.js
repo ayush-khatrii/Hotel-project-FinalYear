@@ -18,7 +18,7 @@ import contactRouter from "./routes/contact.js";
 
 // Middlewares
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://marutihotel.netlify.app",
   credentials: true,
 };
 
