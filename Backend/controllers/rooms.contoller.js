@@ -97,10 +97,59 @@ const handleDeleteRoomsById = async (req, res, next) => {
   }
 };
 
+// search and sort rooms based on amenities , roomType , price
+const searchRooms = async (req, res) => {
+  try {
+    const { roomType, amenities, minPrice, maxPrice, page, limit } = req.query;
+    let query = {};
+
+    if (roomType) {
+      query.roomType = { $regex: roomType, $options: "i" };
+    }
+
+    if (amenities) {
+      query.amenities = { $all: amenities.split(',') };
+    }
+
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice); // 1000 >=
+      if (maxPrice) query.price.$lte = Number(maxPrice); // 1000 <=
+    }
+
+    // Pagination
+    const pageNumber = parseInt(page) || 1;
+    const pageSize = parseInt(limit) || 10;
+    const skip = (pageNumber - 1) * pageSize;
+
+    const rooms = await Room.find(query)
+      .skip(skip)
+      .limit(pageSize);
+
+    // Fetch total count for pagination purposes
+    const totalRooms = await Room.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      data: rooms,
+      pagination: {
+        total: totalRooms,
+        page: pageNumber,
+        limit: pageSize,
+        pages: Math.ceil(totalRooms / pageSize),
+      },
+    });
+  } catch (error) {
+    console.log(error)
+    res.send(error)
+  }
+};
+
 export default {
   handleGetAllRooms,
   handleGetRoomById,
   handlePostRooms,
   handleUpdateRoomsById,
   handleDeleteRoomsById,
+  searchRooms
 };

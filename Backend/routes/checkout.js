@@ -5,10 +5,7 @@ import { verifyUser } from "../middlewares/verifyToken.js";
 const router = express.Router();
 // POST REQ. FOR PAYMENTS
 
-router.post(
-  "/create-checkout-session",
-  verifyUser,
-  checkoutController.handleCheckout
-);
+router.post("/", verifyUser, checkoutController.Checkout);
+router.post("/paymentVerification", verifyUser, checkoutController.payment);
 
 export default router;

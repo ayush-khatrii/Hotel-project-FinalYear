@@ -1,75 +1,68 @@
-import Stripe from "stripe";
 import Booking from "../models/booking.models.js";
 import User from "../models/users.model.js";
+import { instance } from "../server.js";
+import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
 
-const handleCheckout = async (req, res) => {
+const Checkout = async (req, res) => {
   try {
-    const {
-      singleRoomDetails,
-      totalPrice,
-      adults,
-      imgUrl,
-      children,
-      checkInDate,
-      checkOutDate,
-      email,
-    } = req.body;
+    const options = {
+      amount: Number(req.body.totalPrice * 100),  // amount in the smallest currency unit
+      currency: "INR",
+    };
+    const booking = await instance.orders.create(options);
 
-    const userId = req.user.id;
+    res.status(200).json({ success: true, booking });
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      customer_email: email,
-      billing_address_collection: "auto",
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: singleRoomDetails?.roomType,
-              description: "Hello this is desc",
-            },
-            unit_amount: totalPrice * 100,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/checkout-success`,
-      cancel_url: `${process.env.CLIENT_URL}/checkout-cancel`,
-    });
-
-    const newBooking = new Booking({
-      room: singleRoomDetails._id,
-      user: userId,
-      checkindate: checkInDate,
-      checkoutdate: checkOutDate,
-      adults: adults,
-      children: children,
-      totalPrice: totalPrice,
-      imgUrl: imgUrl,
-    });
-
-    await newBooking.save();
-
-    // Saving the newly booking  id into the user  model
-    const user = await User.findById(userId);
-    user.booking.push(newBooking._id);
-    await user.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Payment Success Room booked successfully!",
-      session,
-    });
   } catch (error) {
     res.status(500).json({ message: error.message });
-    console.log(error);
   }
-};
+}
+const payment = async (req, res) => {
+  try {
+    console.log('Payment Verification Data:', req.body);
+    const { razorpayOrderId, razorpayPaymentId, razorpaySignature, bookingDetails } = req.body;
+
+    // Razorpay verification
+    const isVerified = validatePaymentVerification({
+      "order_id": razorpayOrderId,
+      "payment_id": razorpayPaymentId
+    }, razorpaySignature, process.env.RAZORPAY_SECRET_KEY);
+
+    console.log(isVerified);
+
+    if (isVerified) {
+      const newBooking = new Booking({
+        user: req.user.id,
+        room: bookingDetails.roomId,
+        imgUrl: bookingDetails.imgUrl,
+        checkindate: bookingDetails.checkIn,
+        checkoutdate: bookingDetails.checkOut,
+        adults: bookingDetails.adults,
+        children: bookingDetails.children,
+        totalPrice: bookingDetails.totalPrice,
+        paymentId: razorpayPaymentId,
+        orderId: razorpayOrderId,
+        signature: razorpaySignature,
+      });
+
+      // save booking and also push it to the user bookings using promise.all
+      const user = await User.findById(req.user.id);
+      user.bookings.push(newBooking._id);
+      await Promise.all([
+        newBooking.save(),
+      user.save(),
+      ]);
+      res.status(200).json({ success: true, message: "Payment Successfull!" });
+    }
+    else {
+      res.status(500).json({ success: false, message: "Payment verification failed!" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 export default {
-  handleCheckout,
+  Checkout,
+  payment
 };

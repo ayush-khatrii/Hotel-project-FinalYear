@@ -15,7 +15,7 @@ const handleGetUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
       .select("-password")
-      .populate("booking");
+      .populate("bookings").select("-signature , paymentId");
     // const { password, isAdmin, ...others } = user;
     if (!user) {
       return res.status(404).json({ error: "User not found!" });
