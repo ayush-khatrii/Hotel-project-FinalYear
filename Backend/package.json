@@ -5,8 +5,7 @@
   "description": "Full stack  hotel booking system ",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "webpack"
+    "start": "node index.js"
   },
   "author": "ayush kharti , harsh dhanwani , bharat patel",
   "license": "ISC",
