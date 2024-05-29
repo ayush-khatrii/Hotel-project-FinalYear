@@ -22,7 +22,7 @@ const AddRooms = () => {
 
 
     try {
-      const response = await fetch("http://localhost:3000/rooms", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

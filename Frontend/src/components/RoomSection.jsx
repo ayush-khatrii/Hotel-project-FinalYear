@@ -8,7 +8,7 @@ const RoomSection = () => {
 
   const fetchRoom = async () => {
     try {
-      const response = await fetch("http://localhost:3000/rooms");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms`);
       const roomsData = await response.json();
       setRooms(roomsData);
     } catch (error) {

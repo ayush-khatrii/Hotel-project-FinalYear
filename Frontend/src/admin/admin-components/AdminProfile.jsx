@@ -19,7 +19,7 @@ const AdminProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

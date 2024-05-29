@@ -27,12 +27,13 @@ const Roomcard = ({ id, title, roomtype, imgurl, desc, buttonText }) => {
           <p className="mb-5">{desc}</p>
 
           {buttonText === "Booked" ? (
-            <div
+            <button
               onClick={handleClick}
-              className="bg-zinc-200 w-fit text-gray-400 cursor-not-allowed mt-5 px-4 py-2 rounded-md font-medium"
+              disabled
+              className="bg-zinc-200 w-fit text-gray-400 mt-5 px-4 py-2 rounded-md font-medium"
             >
               {buttonText}
-            </div>
+            </button>
           ) : (
             <button
               onClick={handleClick}

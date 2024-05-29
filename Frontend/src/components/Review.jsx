@@ -13,7 +13,7 @@ const Review = () => {
 
   const fetchReview = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/rooms/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms/${id}`);
       const roomsData = await response.json();
       setFetchReviews(roomsData.reviews);
     } catch (error) {
@@ -33,7 +33,7 @@ const Review = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/reviews/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/reviews/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,6 +64,27 @@ const Review = () => {
     }
   };
 
+  const handleDeleteReview = async (id) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/reviews/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setFetchReviews(fetchReviews.filter((review) => review._id !== id));
+        toast.success("Review deleted successfully!!");
+        console.log(data);
+      }
+    } catch (error) {
+      toast.error("Review deleted successfully!!");
+      console.log(error);
+    }
+  };
+
   const handleStarClick = (starCount) => {
     setRating(starCount);
   };
@@ -82,9 +103,8 @@ const Review = () => {
               {[1, 2, 3, 4, 5].map((starCount, index) => (
                 <span
                   key={index}
-                  className={`cursor-pointer ${
-                    rating >= starCount ? "text-yellow-500" : ""
-                  }`}
+                  className={`cursor-pointer ${rating >= starCount ? "text-yellow-500" : ""
+                    }`}
                   onClick={() => handleStarClick(starCount)}
                 >
                   &#9733;
@@ -116,6 +136,12 @@ const Review = () => {
               <div className="flex items-center gap-2">
                 <h1 className="font-bold">{review?.user?.username}</h1>|
                 <span>{review.rating} &#9733;</span>
+                <button
+                  className="bg-zinc-600 text-white textx-sm rounded-full px-2 py-1 my-4"
+                  onClick={() => handleDeleteReview(review._id)}
+                >
+                  Delete
+                </button>
               </div>
               <p>{review.comment}</p>
               <br className="visible-br text-black" />

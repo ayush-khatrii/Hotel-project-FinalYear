@@ -1,16 +1,57 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
+import { Chip } from "@nextui-org/react";
+
+
+const allAmenities = [
+  {
+    id: 1,
+    name: "Wifi",
+    checked: false
+  },
+  {
+    id: 2,
+    name: "AC",
+    checked: false
+  },
+  {
+    id: 3,
+    name: "TV",
+    checked: false
+  },
+  {
+    id: 4,
+    name: "Fridge",
+    checked: false
+  },
+  {
+    id: 5,
+    name: "Refrigerator",
+    checked: false
+  },
+  {
+    id: 6,
+    name: "sample",
+    checked: false
+  },
+]
 
 const Rooms = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchInput, setSearchInput] = useState("");
   const [rooms, setRooms] = useState([]);
+  const [amenities, setAmenities] = useState("");
+  const [roomType, setRoomType] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+
 
   const fetchRoom = async () => {
     try {
-      const response = await fetch("http://localhost:3000/rooms");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms`);
       const roomsData = await response.json();
+      console.log(roomsData);
       setRooms(roomsData);
     } catch (error) {
       toast.error(error.message);
@@ -31,63 +72,69 @@ const Rooms = () => {
     setSearchInput(val);
   };
 
-  const filteredCategory = rooms.filter((item) => {
-    const isSelectedCategory =
-      selectedCategory === "all" ||
-      item.roomType.toLowerCase() === selectedCategory;
-
-    const isMatchingSearch =
-      item.roomType.toLowerCase().includes(searchInput) ||
-      item.amenities.some((amenity) =>
-        amenity.toLowerCase().includes(searchInput.toLowerCase())
-      );
-
-    return isSelectedCategory && isMatchingSearch;
-  });
 
   return (
     <>
       <Toaster />
-      <div className="">
+      <div className="h-full">
         <div className="container mx-auto mt-20 py-5 lg:px-20 px-10">
-          <div className="flex justify-center mb-8">
-            <select
-              onChange={handleFilter}
-              className="-md border rounded border-black px-4 py-2 mr-4"
-            >
-              <option value="all">All</option>
-              <option value="luxury">Luxury</option>
-              <option value="basic">Basic</option>
-              <option value="suite">Suite</option>
-            </select>
-            <div className="relative">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 bottom-0 w-6 h-6 my-auto  text-gray-700 left-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <div className="flex justify-center items-center mb-8">
+            <div className="flex justify-start flex-col ml-4">
+              <label htmlFor="category">Filter by category</label>
+              <select
+                id="category"
+                onChange={handleFilter}
+                className="border rounded border-black px-4 py-2"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search"
-                onChange={handleSearch}
-                className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded border-neutral-600 -md outline-none "
-              />
+                <option value="all">All</option>
+                <option value="luxury">Luxury</option>
+                <option value="basic">Basic</option>
+                <option value="suite">Suite</option>
+              </select>
             </div>
+            <div className="flex">
+              <div className="flex justify-start flex-col ml-4">
+                <label htmlFor="minprice">Minimum</label>
+                <input
+                  id="minprice"
+                  type="text"
+                  className="border rounded border-black px-4 py-2"
+                  placeholder=""
+                />
+              </div>
+              <div className="flex justify-start flex-col ml-4">
+                <label htmlFor="maxprice">Maximum</label>
+                <input
+                  id="maxprice"
+                  type="text"
+                  className="border rounded border-black px-4 py-2"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div className="">
+              <h1>Amenities</h1>
+              {/* <div className="grid grid-cols-2 place-items-center">
+                <select className="border mx-5 rounded border-black px-4 py-2" name="" id="">
+                  {
+                    allAmenities.map((amenity) => (
+                      <span key={amenity.id}>
+                        <input type="checkbox" name="" id="" />
+                        <option value={amenity.name}>{amenity.name}</option>
+                      </span>
+                    ))
+                  }
+                </select>
+              </div> */}
+            </div>
+
           </div>
+
 
           <div className="flex flex-col justify-center items-center gap-6">
             {/* Container for room cards */}
             <div className="w-full">
-              {filteredCategory.map((room) => (
+              {rooms?.map((room) => (
                 <div
                   key={room._id}
                   className="bg-white rounded  border border-zinc-400 mb-6 flex flex-col-reverse lg:flex-row"
@@ -104,12 +151,12 @@ const Rooms = () => {
                         <p className="text-sm font-semibold mb-1">Amenities:</p>
                         <ul className="flex flex-wrap gap-2 text-sm text-gray-600">
                           {room.amenities.map((amenity, index) => (
-                            <li
+                            <Chip
                               key={index}
-                              className="rounded bg-gray-200 px-2 py-1"
+                              color="default"
                             >
                               {amenity}
-                            </li>
+                            </Chip>
                           ))}
                         </ul>
                       </div>
@@ -147,7 +194,7 @@ const Rooms = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

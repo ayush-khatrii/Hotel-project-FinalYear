@@ -12,7 +12,7 @@ import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import SingleRoom from "./page/SingleRoom.jsx";
 import Profile from "./page/Profile.jsx";
-import ConfirmBooking from "./page/ConfirmBooking.jsx";
+// import ConfirmBooking from "./page/ConfirmBooking.jsx";
 import CancelCheckout from "./page/CancelCheckout.jsx";
 import SuccessCheckout from "./page/SuccessCheckout.jsx";
 import Admin from "./admin/Admin.jsx";
@@ -31,7 +31,7 @@ import AdminProfile from "./admin/admin-components/AdminProfile.jsx";
 import UpdateUser from "./admin/admin-components/UpdateUser.jsx";
 import ContactData from "./admin/admin-components/ContactData.jsx";
 import UpdateRoom from "./admin/admin-components/UpdateRoom.jsx";
-
+import { NextUIProvider } from '@nextui-org/react'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,10 +59,10 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
 
-      {
-        path: "/:id/confirm-booking/",
-        element: <ConfirmBooking />,
-      },
+      // {
+      //   path: "/:id/confirm-booking/",
+      //   element: <ConfirmBooking />,
+      // },
       {
         path: "/rooms/:id",
         element: <SingleRoom />,
@@ -140,6 +140,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
-    <RouterProvider router={router} />
+    <NextUIProvider>
+      <RouterProvider router={router} />
+    </NextUIProvider>
   </AuthProvider>
 );

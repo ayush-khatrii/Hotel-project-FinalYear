@@ -13,7 +13,7 @@ const Rooms = () => {
   useEffect(() => {
     const getRooms = async () => {
       try {
-        const response = await fetch("http://localhost:3000/rooms", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const Rooms = () => {
 
   const handleDeleteRoom = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/rooms/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

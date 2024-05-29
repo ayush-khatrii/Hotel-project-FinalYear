@@ -8,7 +8,7 @@ const AdminList = () => {
   useEffect(() => {
     const getAdmins = async () => {
       try {
-        const response = await fetch("http://localhost:3000/users", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

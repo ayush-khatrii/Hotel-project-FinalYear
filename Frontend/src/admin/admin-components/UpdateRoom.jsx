@@ -22,9 +22,10 @@ const updatedRoom = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const URI = import.meta.env.SERVER_URL;
 
     try {
-      const response = await fetch(`http://localhost:3000/rooms/${id}`, {
+      const response = await fetch(`${URI}/rooms/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +46,7 @@ const updatedRoom = () => {
   useEffect(() => {
     const getRoomById = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/rooms/${id}`, {
+        const response = await fetch(`process.env.SERVER_URL/rooms/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -110,7 +111,7 @@ const updatedRoom = () => {
         onSubmit={handleSubmit}
         className="flex justify-center  flex-col w-full max-w-3xl mx-auto mb-10 px-10"
       >
-        <h1 className="text-center my-10 font-bold text-2xl">Post Room </h1>
+        <h1 className="text-center my-10 font-bold text-2xl">Update Room </h1>
         <div className="mb-4">
           <label className="block mb-1">Room Type:</label>
           <input

@@ -10,7 +10,7 @@ const Profile = () => {
   const fetchBookingData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/users/${user.user._id}`,
+        `${import.meta.env.VITE_SERVER_URL}/users/${user?.user?._id}`,
         {
           method: "GET",
           headers: {
@@ -21,7 +21,8 @@ const Profile = () => {
       );
 
       const result = await response.json();
-      setBookings(result.booking);
+      console.log(result.bookings);
+      setBookings(result.bookings);
     } catch (error) {
       toast.error(error.message);
     }
@@ -34,8 +35,12 @@ const Profile = () => {
   }, [user]);
 
   const handleDelete = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this booking?");
+    if (!isConfirmed) {
+      return;
+    }
     try {
-      const response = await fetch(`http://localhost:3000/bookings/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/bookings/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

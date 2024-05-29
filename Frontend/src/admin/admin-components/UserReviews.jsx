@@ -9,7 +9,7 @@ const UserReview = () => {
   useEffect(() => {
     const getReviews = async () => {
       try {
-        const response = await fetch("http://localhost:3000/reviews", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/reviews`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const UserReview = () => {
 
   const handleDelete = async (reviewId) => {
     try {
-      const resp = await fetch(`http://localhost:3000/reviews/${reviewId}`, {
+      const resp = await fetch(`${import.meta.env.VITE_SERVER_URL}/reviews/${reviewId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

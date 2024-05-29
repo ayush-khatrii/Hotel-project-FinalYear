@@ -11,7 +11,7 @@ const Bookings = () => {
   useEffect(() => {
     const getBookings = async () => {
       try {
-        const response = await fetch("http://localhost:3000/bookings", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/bookings`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const Bookings = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/bookings/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/bookings/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,6 @@ const Bookings = () => {
                     <th className="px-4 text-sm py-2">Check-in Date</th>
                     <th className="px-4 text-sm py-2">Check-out Date</th>
                     <th className="px-4 text-sm py-2">Total Price</th>
-                    <th className="px-4 text-sm py-2">Phone Number</th>
                     <th className="px-4 text-sm py-2">RoomId</th>
                     <th className="px-4 text-sm py-2">Actions</th>
                   </tr>
@@ -87,9 +86,6 @@ const Bookings = () => {
                       </td>
                       <td className="border px-4 py-2">
                         ₹{booking.totalPrice}
-                      </td>
-                      <td className="border px-4 py-2">
-                        {booking.phoneNumber}
                       </td>
                       <td className="border px-4 py-2">{booking.room}</td>
                       <td className="border flex flex-col gap-2 px-4 py-2">

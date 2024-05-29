@@ -19,13 +19,13 @@ const Home = () => {
           <div className="cta w-full flex   flex-col gap-3 lg:flex-row ">
             <Link
               to={"/rooms"}
-              className=" text-white bg-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md "
+              className="inline-flex items-center gap-1.5 rounded-lg border border-red-300 text-white bg-red-600 px-5 py-2.5 text-center"
             >
               Book Now
             </Link>
             <a
               href="#roomsection"
-              className=" border text-red-500 text-center border-red-700 lg:w-auto w-full px-3 py-2 lg:text-xl  font-medium rounded-md  "
+              className="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-100 focus:ring focus:ring-gray-100 disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-50 disabled:text-gray-400"
             >
               Explore
             </a>

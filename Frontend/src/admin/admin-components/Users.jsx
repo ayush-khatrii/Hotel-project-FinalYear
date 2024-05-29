@@ -9,7 +9,7 @@ const Users = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch("http://localhost:3000/users", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Users = () => {
 
     if (isConfirmed) {
       try {
-        const resp = await fetch(`http://localhost:3000/users/${userId}`, {
+        const resp = await fetch(`${import.meta.env.VITE_SERVER_URL}/users/${userId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

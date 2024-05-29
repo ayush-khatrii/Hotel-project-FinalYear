@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth/user", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password) => {
     try {
-      const response = await fetch("http://localhost:3000/auth/register", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
   };
   const adminLogin = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:3000/auth/admin-login", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth/admin-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

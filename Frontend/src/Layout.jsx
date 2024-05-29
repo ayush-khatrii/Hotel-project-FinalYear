@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const Layout = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  console.log(user?.user?.isAdmin);
 
   if (user?.user?.isAdmin) {
     navigate("/admin");
