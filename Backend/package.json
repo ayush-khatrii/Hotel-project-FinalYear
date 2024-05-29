@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Full stack  hotel booking system ",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "build": "webpack"
   },
   "author": "ayush kharti , harsh dhanwani , bharat patel",

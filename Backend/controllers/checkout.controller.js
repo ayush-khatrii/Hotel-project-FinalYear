@@ -1,6 +1,6 @@
 import Booking from "../models/booking.models.js";
 import User from "../models/users.model.js";
-import { instance } from "../server.js";
+import { instance } from "../index.js";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
 
 const Checkout = async (req, res) => {
