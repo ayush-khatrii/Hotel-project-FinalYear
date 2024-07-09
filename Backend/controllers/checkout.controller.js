@@ -1,6 +1,6 @@
 import Booking from "../models/booking.models.js";
 import User from "../models/users.model.js";
-import { instance } from "../index.js";
+import { instance } from "../index.js"
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
 
 const Checkout = async (req, res) => {
@@ -50,7 +50,7 @@ const payment = async (req, res) => {
       user.bookings.push(newBooking._id);
       await Promise.all([
         newBooking.save(),
-      user.save(),
+        user.save(),
       ]);
       res.status(200).json({ success: true, message: "Payment Successfull!" });
     }
