@@ -5,14 +5,18 @@ import { Toaster, toast } from "react-hot-toast";
 
 const RoomSection = () => {
   const [rooms, setRooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchRoom = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms`);
       const roomsData = await response.json();
       setRooms(roomsData);
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -20,6 +24,9 @@ const RoomSection = () => {
     fetchRoom();
   }, []);
 
+  if (isLoading) {
+    return <div className="text-center my-10 font-bold flex justify-center items-center  text-2xl">Loading...</div>;
+  }
   return (
     <>
       <Toaster />

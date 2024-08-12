@@ -15,7 +15,7 @@ const SingleRoom = () => {
   const [singleRoomDetails, setSingleRoomDetails] = useState([]);
   const [totalNights, setTotalNights] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -25,6 +25,7 @@ const SingleRoom = () => {
 
   const fetchRoom = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms/${id}`);
       const roomsData = await response.json();
       setSingleRoomDetails(roomsData);
@@ -32,6 +33,8 @@ const SingleRoom = () => {
     } catch (error) {
       toast.error(error.message);
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,6 +79,10 @@ const SingleRoom = () => {
     setTotalNights(diff);
     setIsModalOpen(true);
   };
+
+  if (isLoading) {
+    return <div className="text-center my-10 font-bold flex justify-center items-center h-screen text-2xl">Loading...</div>;
+  }
 
   return (
     <>

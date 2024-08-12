@@ -4,38 +4,6 @@ import { Toaster, toast } from "react-hot-toast";
 import { Chip } from "@nextui-org/react";
 
 
-const allAmenities = [
-  {
-    id: 1,
-    name: "Wifi",
-    checked: false
-  },
-  {
-    id: 2,
-    name: "AC",
-    checked: false
-  },
-  {
-    id: 3,
-    name: "TV",
-    checked: false
-  },
-  {
-    id: 4,
-    name: "Fridge",
-    checked: false
-  },
-  {
-    id: 5,
-    name: "Refrigerator",
-    checked: false
-  },
-  {
-    id: 6,
-    name: "sample",
-    checked: false
-  },
-]
 
 const Rooms = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -45,16 +13,20 @@ const Rooms = () => {
   const [roomType, setRoomType] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const fetchRoom = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/rooms`);
       const roomsData = await response.json();
       console.log(roomsData);
       setRooms(roomsData);
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -71,6 +43,11 @@ const Rooms = () => {
     const val = e.target.value.toLowerCase();
     setSearchInput(val);
   };
+
+
+  if (isLoading) {
+    return <div className="text-center my-10 font-bold flex justify-center items-center h-screen text-2xl">Loading...</div>;
+  }
 
 
   return (
